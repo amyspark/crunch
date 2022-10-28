@@ -34,12 +34,11 @@ jobs:
       LD: link.exe
     steps:
       - name: Runtime environment
-        shell: bash
         env:
           WORKSPACE: ${{ github.workspace }}
         run: |
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-          echo "GITHUB_WORKSPACE=`pwd`" >> $GITHUB_ENV
+          echo "${env:HOME}/.local/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          echo "GITHUB_WORKSPACE=${{ env.WORKSPACE }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
       - name: Setup compiler
         uses: ilammy/msvc-dev-cmd@v1
         with:
@@ -110,7 +109,7 @@ jobs:
           WORKSPACE: ${{ github.workspace }}
         run: |
           echo "$HOME/.local/bin" >> $GITHUB_PATH
-          echo "GITHUB_WORKSPACE=`pwd`" >> $GITHUB_ENV
+          echo "GITHUB_WORKSPACE=${{ env.WORKSPACE }}" >> $GITHUB_ENV
       - name: Setup compiler
         if: startsWith(matrix.sys.abi, 'mingw64') || startsWith(matrix.sys.abi, 'ucrt64')
         run: |
@@ -181,12 +180,11 @@ jobs:
       LD: link.exe
     steps:
       - name: Runtime environment
-        shell: bash
         env:
           WORKSPACE: ${{ github.workspace }}
         run: |
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-          echo "GITHUB_WORKSPACE=`pwd`" >> $GITHUB_ENV
+          echo "${env:HOME}/.local/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          echo "GITHUB_WORKSPACE=${{ env.WORKSPACE }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
       - name: Coverage environment
         run: |
           echo "BUILD_OPTS=-Db_coverage=true --buildtype=debug" >> $GITHUB_ENV
@@ -264,8 +262,8 @@ jobs:
         env:
           WORKSPACE: ${{ github.workspace }}
         run: |
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-          echo "GITHUB_WORKSPACE=`pwd`" >> $GITHUB_ENV
+          echo "${env:HOME}/.local/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          echo "GITHUB_WORKSPACE=${{ env.WORKSPACE }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
       - name: Coverage environment
         run: |
           echo "BUILD_OPTS=-Db_coverage=true --buildtype=debug" >> $GITHUB_ENV
