@@ -107,6 +107,12 @@ jobs:
         run: ninja -C build
       - name: Test
         run: ninja -C build test
+      - name: Upload test logs
+        uses: actions/upload-artifact@v3
+        with:
+          name: logs ${{ matrix.os.id }} (${{ matrix.compiler }} ${{ matrix.cpp_std }})
+          path: ${{ env.GITHUB_WORKSPACE }}/build/meson-logs/testlog.txt
+          if-no-files-found: error 
       - name: Install
         run: ninja -C build install
 
